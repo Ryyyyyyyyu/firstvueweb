@@ -1,10 +1,10 @@
 <template>
-  <div>Home页面</div>
+<div>project_add</div>
 </template>
 
 <script>
 export default {
-name: "Home"
+  name: "ProjectAdd"
 }
 </script>
 

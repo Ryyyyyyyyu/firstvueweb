@@ -20,6 +20,7 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  // 注册路由
   router,
   render: h => h(App),
 })
