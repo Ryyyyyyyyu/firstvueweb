@@ -1,9 +1,11 @@
 <template>
-  <div class="common-layout-1">
+  <div class="common-layout">
     <el-container>
       <Menu></Menu>
       <el-container>
-        <el-header>Header</el-header>
+        <el-header>
+          <Header></Header>
+        </el-header>
         <el-main>
           <router-view></router-view>
         </el-main>
@@ -24,5 +26,9 @@ export default {
 </script>
 
 <style scoped>
+.common-layout {
+  width: 100%;
+  height: 100%;
+}
 
 </style>

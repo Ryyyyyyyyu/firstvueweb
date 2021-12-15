@@ -21,6 +21,7 @@ const routes = [
     name: 'Home',
     title: '首页',
     meta: {
+      icon: 'el-icon-s-platform',
       requiresAuth: true // 添加该字段，表示进入这个路由是需要登录的
     },
     component: Home
