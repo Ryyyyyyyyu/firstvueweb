@@ -18,7 +18,7 @@ Vue.prototype.$request = request
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-new Vue({
+const vm =new Vue({
   el: '#app',
   // 注册路由
   router,

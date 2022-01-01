@@ -47,7 +47,7 @@ request.interceptors.response.use(function (response){
 }, function (error) {
   console.log('error:' + error)
   if (error.data.msg){
-    Message.success({message:error.data.msg});
+    Message.success({message:error.data});
     }
   return Promise.reject(error)
   }

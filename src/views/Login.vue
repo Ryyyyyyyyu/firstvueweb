@@ -96,6 +96,7 @@ export default {
             if (res.status === 200 && res.data.token){
             this.$message.success('登录成功');
             localStorage.setItem('token', res.data.token)
+            localStorage.setItem('username', res.data.username)
             // this.$router.push('/home')
             this.$router.replace('/home')
           }

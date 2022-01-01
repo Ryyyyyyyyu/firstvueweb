@@ -27,9 +27,7 @@
 <script>
 export default {
   name: "Menu",
-  data(){
 
-  }
 }
 </script>
 

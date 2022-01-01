@@ -3,7 +3,7 @@
     <el-container>
       <Menu></Menu>
       <el-container>
-        <el-header>
+        <el-header style="padding: 0">
           <Header></Header>
         </el-header>
         <el-main>
