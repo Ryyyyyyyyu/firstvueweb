@@ -1,15 +1,15 @@
 <template>
   <div class="header">
-    <div class="logo">自动化测试平台</div>
+    <div class="title">自动化测试平台</div>
     <div class="header-right">
-      <el-dropdown class="user-name" trigger="click">
+      <el-dropdown class="user-name" trigger="click" @command="handleCommand">
       <span class="el-dropdown-link">
-        {{ username }} <i class="el-icon-caret-bottom"></i>
+        {{ username }}<i class="el-icon-caret-bottom"></i>
       </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>个人中心</el-dropdown-item>
-          <el-dropdown-item>设置</el-dropdown-item>
-          <el-dropdown-item>退出登录</el-dropdown-item>
+          <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
+          <el-dropdown-item command="setting">设置</el-dropdown-item>
+          <el-dropdown-item command="logout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -23,20 +23,38 @@ export default {
     return {
       username: window.localStorage.getItem('username')
     }
-  }
+  },
+  methods:{
+      handleCommand(command){
+        console.log(command)
+        if(command === 'logout'){
+          window.localStorage.removeItem('token')
+          window.localStorage.removeItem('username')
+          this.$router.push('/login')
+        }
+      }
+    }
 }
 </script>
 
 <style scoped>
-.logo {
+.title {
   float: left;
-  width: 250px;
-  line-height: 70px;
+  width: 70%;
+  font: normal 28px/60px "microsoft yahei";
 }
 
 .header-right {
   float: right;
-  padding-right: 5px;
+  font: normal 28px/60px "microsoft yahei";
+  height: 60px;
+  width: 100px;
+  padding: 0;
+  text-align: center;
+}
+
+.user-name{
+  height: 55px;
 }
 
 </style>

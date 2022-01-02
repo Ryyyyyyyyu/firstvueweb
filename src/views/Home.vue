@@ -1,15 +1,16 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <Menu></Menu>
+      <el-header>
+        <Header></Header>
+      </el-header>
       <el-container>
-        <el-header style="padding: 0">
-          <Header></Header>
-        </el-header>
+        <el-aside width="200px">
+          <Menu></Menu>
+        </el-aside>
         <el-main>
           <router-view></router-view>
         </el-main>
-        <el-footer>Footer</el-footer>
       </el-container>
     </el-container>
   </div>
@@ -29,6 +30,12 @@ export default {
 .common-layout {
   width: 100%;
   height: 100%;
+}
+
+.el-header{
+  background: #409EFF;
+  margin: 3px;
+  padding: 0;
 }
 
 </style>
