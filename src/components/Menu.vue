@@ -4,14 +4,14 @@
 
       <el-menu-item :index="item.path" v-for="(item, index) in this.$router.options.routes" :key="index"
                   v-if="!item.hidden && !item.children">
-        <i class="el-icon-s-platform"></i>
+        <i :class="item.meta.icon"></i>
         <span slot="title">{{ item.title }}</span>
       </el-menu-item>
 
       <el-submenu :index="item.path" v-for="(item, index) in this.$router.options.routes" :key="index"
                   v-if="!item.hidden && item.children">
         <template slot="title">
-          <i class="el-icon-s-platform"></i>
+          <i :class="item.meta.icon"></i>
           <span>{{ item.title }}</span>
         </template>
         <el-menu-item :index="children.path"
@@ -27,7 +27,11 @@
 <script>
 export default {
   name: "Menu",
+  data(){
+    return {
 
+    }
+  }
 }
 </script>
 

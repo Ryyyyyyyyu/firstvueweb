@@ -48,7 +48,7 @@ export default {
   data() {
     // 自定义验证码校验
     let validateCode = (rule, value, callback) => {
-      if (this.verCode.join('') === this.loginForm.code || this.loginForm.code === 'ALLPASS') {
+      if (this.verCode.join('').toLowerCase() === this.loginForm.code.toLowerCase() || this.loginForm.code === 'ALLPASS') {
         callback();
         } else {
         callback(new Error('请输入正确的验证码'));
@@ -56,8 +56,8 @@ export default {
     };
     return {
       loginForm: {
-        username: 'test001',
-        password: '123456',
+        username: 'admin',
+        password: 'admin',
         code: 'ALLPASS',
       },
       verCode: [],
@@ -121,6 +121,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>

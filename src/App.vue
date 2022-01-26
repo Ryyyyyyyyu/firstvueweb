@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-<!--    将组件渲染到该地方-->
+    <!--    将组件渲染到该地方-->
     <router-view></router-view>
   </div>
 </template>
@@ -13,4 +13,8 @@ export default {
 </script>
 
 <style>
+#app{
+  width: 100%;
+  height: 100%;
+}
 </style>

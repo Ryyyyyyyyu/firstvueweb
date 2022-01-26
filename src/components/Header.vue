@@ -55,6 +55,8 @@ export default {
 
 .user-name{
   height: 55px;
+  padding: 0;
+  margin: 0;
 }
 
 </style>
