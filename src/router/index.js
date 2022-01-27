@@ -33,8 +33,8 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home,
-    title: '首页',
     meta: {
+      title: '首页',
       icon: 'el-icon-s-home',
       requiresAuth: true // 添加该字段，表示进入这个路由是需要登录的
     }
@@ -43,22 +43,27 @@ const routes = [
     path: '/project',
     name: 'Project',
     redirect: '/project/list',
-    title: '项目管理',
     component: Home,
     meta: {
+      title: '项目管理',
       icon: 'el-icon-s-claim'
     },
     children: [
       {
         path: '/project/list',
-        title: '项目列表',
         name: 'ProjectList',
-        component: ProjectList
-      }, {
+        component: ProjectList,
+        meta: {
+          title: '项目列表',
+        }
+      },
+      {
         path: '/project/add',
-        title: '项目新增',
         name: 'ProjectAdd',
-        component: ProjectAdd
+        component: ProjectAdd,
+        meta: {
+          title: '项目新增',
+        }
       }
     ]
   },
@@ -66,22 +71,27 @@ const routes = [
     path: '/interface',
     name: 'Interface',
     redirect: '/interface/list',
-    title: '接口管理',
     component: Home,
     meta: {
+      title: '接口管理',
       icon: 'el-icon-s-flag'
     },
     children: [
       {
         path: '/interface/list',
-        title: '接口列表',
         name: 'InterfaceList',
-        component: InterfaceList
-      }, {
+        component: InterfaceList,
+        meta: {
+          title: '接口列表',
+        }
+      },
+      {
         path: '/interface/add',
-        title: '项目新增',
         name: 'InterfaceAdd',
-        component: InterfaceAdd
+        component: InterfaceAdd,
+        meta: {
+          title: '项目新增',
+        }
       }
     ]
   },
@@ -89,22 +99,27 @@ const routes = [
     path: '/env',
     name: 'Env',
     redirect: '/env/list',
-    title: '环境管理',
     component: Home,
     meta: {
+      title: '环境管理',
       icon: 'el-icon-s-open'
     },
     children: [
       {
         path: '/env/list',
-        title: '环境列表',
         name: 'EnvList',
-        component: EnvList
-      }, {
+        component: EnvList,
+        meta: {
+          title: '环境列表',
+        }
+      },
+      {
         path: '/env/add',
-        title: '环境新增',
         name: 'EnvAdd',
-        component: EnvAdd
+        component: EnvAdd,
+        meta: {
+          title: '环境新增',
+        }
       }
     ]
   },
@@ -112,9 +127,9 @@ const routes = [
     path: '/builtin',
     name: 'Builtin',
     redirect: '/builtin/list',
-    title: '内置函数',
     component: Home,
     meta: {
+      title: '内置函数',
       icon: 'el-icon-s-tools'
     },
     children: [
@@ -122,7 +137,10 @@ const routes = [
         path: '/builtin/list',
         title: '函数列表',
         name: 'BuiltinList',
-        component: BuiltinList
+        component: BuiltinList,
+        meta: {
+          title: '函数列表',
+        }
       }
     ]
   },
@@ -130,22 +148,28 @@ const routes = [
     path: '/testcase',
     name: 'Testcase',
     redirect: '/testcase/list',
-    title: '用例管理',
+
     component: Home,
     meta: {
+      title: '用例管理',
       icon: 'el-icon-s-opportunity'
     },
     children: [
       {
         path: '/testcase/list',
-        title: '用例列表',
         name: 'TestcaseList',
-        component: TestcaseList
-      }, {
+        component: TestcaseList,
+        meta: {
+          title: '用例列表',
+        }
+      },
+      {
         path: '/testcase/add',
-        title: '用例新增',
         name: 'TestcaseAdd',
-        component: TestcaseAdd
+        component: TestcaseAdd,
+        meta: {
+          title: '用例新增',
+        }
       }
     ]
   },
@@ -153,22 +177,27 @@ const routes = [
     path: '/testsuite',
     name: 'Testsuite',
     redirect: '/testsuite/list',
-    title: '套件管理',
     component: Home,
     meta: {
+      title: '套件管理',
       icon: 'el-icon-files'
     },
     children: [
       {
         path: '/testsuite/list',
-        title: '套件列表',
         name: 'TestsuiteList',
-        component: TestsuiteList
-      }, {
+        component: TestsuiteList,
+        meta: {
+          title: '套件列表',
+        }
+      },
+      {
         path: '/testsuite/add',
-        title: '套件新增',
         name: 'TestsuiteAdd',
-        component: TestsuiteAdd
+        component: TestsuiteAdd,
+        meta: {
+          title: '套件新增',
+        }
       }
     ]
   },
@@ -176,22 +205,27 @@ const routes = [
     path: '/configure',
     name: 'Configure',
     redirect: '/configure/list',
-    title: '配置管理',
     component: Home,
     meta: {
+      title: '配置管理',
       icon: 'el-icon-s-ticket'
     },
     children: [
       {
         path: '/configure/list',
-        title: '套件列表',
         name: 'ConfigureList',
-        component: ConfigureList
-      }, {
+        component: ConfigureList,
+        meta: {
+          title: '套件列表',
+        }
+      },
+      {
         path: '/configure/add',
-        title: '套件新增',
         name: 'ConfigureAdd',
-        component: ConfigureAdd
+        component: ConfigureAdd,
+        meta: {
+          title: '套件新增',
+        }
       }
     ]
   },
@@ -199,17 +233,19 @@ const routes = [
     path: '/report',
     name: 'Report',
     redirect: '/report/list',
-    title: '报告管理',
     component: Home,
     meta: {
+      title: '报告管理',
       icon: 'el-icon-s-marketing'
     },
     children: [
       {
         path: '/report/list',
-        title: '报告列表',
         name: 'ReportList',
-        component: ReportList
+        component: ReportList,
+        meta: {
+          title: '报告列表',
+        }
       }
     ]
   },

@@ -39,6 +39,7 @@
 
 <script>
 import VerCode from "../components/VerCode";
+import { login } from "@/api/request"
 
 export default {
   name: "Login",
@@ -90,8 +91,7 @@ export default {
             username: this.loginForm.username,
             password: this.loginForm.password,
           }
-          await this.$request.post("/user/login/", params)
-            .then(res => {
+          await login(params).then(res => {
             console.log(res)
             if (res.status === 200 && res.data.token){
             this.$message.success('登录成功');
