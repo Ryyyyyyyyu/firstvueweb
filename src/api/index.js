@@ -22,6 +22,7 @@ const request = axios.create({
 
 // 请求拦截器
 request.interceptors.request.use(function (config){
+  console.log('请求拦截器开始工作了。。。')
   if (config.headers.Authorization === undefined){
     const token = localStorage.getItem("token");
     if (token) {
@@ -37,6 +38,7 @@ request.interceptors.request.use(function (config){
 
 // 响应拦截器
 request.interceptors.response.use(function (response){
+  console.log('响应拦截器开始工作了。。。')
   console.log(response)
   // if (response.status === 200){
   //   if (response.data.msg){

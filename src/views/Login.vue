@@ -92,7 +92,7 @@ export default {
             password: this.loginForm.password,
           }
           await login(params).then(res => {
-            console.log(res)
+            // console.log(res)
             if (res.status === 200 && res.data.token){
             this.$message.success('登录成功');
             localStorage.setItem('token', res.data.token)
