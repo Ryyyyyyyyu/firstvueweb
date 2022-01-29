@@ -44,8 +44,8 @@
         <el-table-column prop="address" label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-video-play">运行</el-button>
-            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button type="text" icon="el-icon-delete" class="red">删除</el-button>
+            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" class="red" @click="handleDel(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -86,14 +86,14 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editVisible = false">确 定</el-button>
+        <el-button type="primary" @click="saveEdit">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import {projects_list} from '@/api/request'
+import {projects_list, edit_project, del_project} from '@/api/request'
 
 export default {
   name: "ProjectList",
@@ -159,16 +159,44 @@ export default {
     },
     // 获取分页数据
     handleCurrentChange(val) {
-
       this.cur_page = val;
       this.getData();
     },
     // 编辑功能
-    handleEdit(index, row) {
-      console.log(row);
-
-      this.form = row;
+    handleEdit(row) {
+      this.form = JSON.parse(JSON.stringify(row));
+      //this.form = row;
       this.editVisible = true;
+    },
+    // 删除功能
+    handleDel(row) {
+      this.$confirm('此操作将永久删除该项目, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        del_project(row.id).then(response => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+          this.getData();
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    // 编辑按钮保存功能
+    saveEdit() {
+      edit_project(this.form.id, this.form).then(response => {
+        this.$message.success(`修改【 ${this.form.name} 】成功`);
+        this.getData();
+        this.editVisible = false;
+      })
+      // this.editVisible = false;
     },
   }
 }
