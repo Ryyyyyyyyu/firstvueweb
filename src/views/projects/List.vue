@@ -11,7 +11,8 @@
     <div class="container">
       <div class="handle-box">
         <el-button type="primary" icon="el-icon-delete" class="handle-del mr10">批量删除</el-button>
-        <el-input placeholder="输入筛选关键字" class="handle-input mr10"></el-input>
+        <el-input placeholder="输入筛选关键字" class="handle-input mr10" v-model="searchKeyword"
+                  @keyup.enter="searchProjects"></el-input>
       </div>
       <!--表格数据展示-->
       <el-table class="table" ref="multipleTable" :data="tableData" tooltip-effect="dark" border style="width: 100%">
@@ -43,7 +44,7 @@
         </el-table-column>
         <el-table-column prop="address" label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text" icon="el-icon-video-play">运行</el-button>
+            <el-button type="text" icon="el-icon-video-play" @click="handleRun(scope.row)">运行</el-button>
             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
             <el-button type="text" icon="el-icon-delete" class="red" @click="handleDel(scope.row)">删除</el-button>
           </template>
@@ -63,7 +64,7 @@
     </div>
 
     <!--  编辑dialog  -->
-    <el-dialog title="收货地址" :visible.sync="editVisible">
+    <el-dialog title="修改项目" :visible.sync="editVisible">
       <el-form :model="form" :rules="editRules">
         <el-form-item label="项目名称" prop="name">
           <el-input v-model="form.name" clearable></el-input>
@@ -89,11 +90,26 @@
         <el-button type="primary" @click="saveEdit">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!--运行dialog-->
+    <el-dialog title="选择运行环境" :visible.sync="runVisible">
+      <el-form>
+        <el-form-item label="运行环境" :label-width="formLabelWidth">
+          <el-select v-model="env_id" placeholder="请选择运行环境" clearable>
+            <el-option v-for="item in envs_data" :key="item.id" :label="item.name" :value="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="runVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmRun">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import {projects_list, edit_project, del_project} from '@/api/request'
+import {del_project, edit_project, projects_list, env_name, run_by_project} from '@/api/request'
 
 export default {
   name: "ProjectList",
@@ -106,9 +122,15 @@ export default {
 
       form: {},  // 编辑dialog层数据
       editVisible: false,  //编辑dialog是否可见
+      runVisible: false,  //运行dialog是否可见
       formLabelWidth: '120px',  // 表单宽度
 
+      searchKeyword: '',  // 搜索关键字
+      envs_data: [],  // 返回的环境名称和id
+      env_id: '',  // 环境id
+      project_id : -1,
 
+      // 编辑表单校验规则
       editRules: {
         name: [
           {required: true, message: '请输入项目名称', trigger: 'blur'},
@@ -153,7 +175,6 @@ export default {
     },
     // 处理每页数据数据量
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
       this.page_size = val;
       this.getData();
     },
@@ -162,10 +183,21 @@ export default {
       this.cur_page = val;
       this.getData();
     },
+    // 运行页面
+    handleRun(row) {
+      this.env_id = '';
+      env_name().then(response => {
+        this.envs_data = response.data;
+      });
+      // console.log(row);
+      this.project_id = row.id;
+      this.runVisible = true;
+    },
     // 编辑功能
     handleEdit(row) {
+      // 深copy新建地址对象，避免编辑未提交影响表单展示数据
       this.form = JSON.parse(JSON.stringify(row));
-      //this.form = row;
+      // this.form = row;
       this.editVisible = true;
     },
     // 删除功能
@@ -197,6 +229,16 @@ export default {
         this.editVisible = false;
       })
       // this.editVisible = false;
+    },
+    // 执行项目下测试用例
+    confirmRun(){
+      run_by_project(this.project_id, this.env_id).then(response =>{
+        this.$message.success(response.data.msg);
+      });
+      this.runVisible = false;
+    },
+    searchProjects() {
+      // TODO
     },
   }
 }

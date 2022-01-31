@@ -5,14 +5,14 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 import { Message } from 'element-ui';
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000';
+axios.defaults.baseURL = 'http://127.0.0.1:8080/api';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 //创建实例
 const request = axios.create({
   // 指定基本url地址
   // baseURL:'http://api.keyou.site:8000',
-  timeout: 3000,
+  timeout: 10000,
   // 指定请求HTTP响应码错误范围
   // status >= 200 && status < 300; // 默认的
 	validateStatus: function(status) {
@@ -46,6 +46,8 @@ request.interceptors.response.use(function (response){
     Message.error({message:'您暂无该权限，请申请权限操作！'});
   } else if (response.status === 404){
     Message.error({message:'请求地址不存在！！'});
+  } else if (response.status === 500){
+    Message.error({message:'服务器内部错误，请联系管理员处理！！'});
   }
   return response
 }, function (error) {
