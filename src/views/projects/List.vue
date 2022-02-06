@@ -10,12 +10,15 @@
     </div>
     <div class="container">
       <div class="handle-box">
-        <el-button type="primary" icon="el-icon-delete" class="handle-del mr10">批量删除</el-button>
+        <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="deleteAll(multipleSelection)">
+          批量删除
+        </el-button>
         <el-input placeholder="输入筛选关键字" class="handle-input mr10" v-model="searchKeyword"
-                  @keyup.enter="searchProjects"></el-input>
+                  @keyup.enter.native="searchProjects"></el-input>
       </div>
       <!--表格数据展示-->
-      <el-table class="table" ref="multipleTable" :data="tableData" tooltip-effect="dark" border style="width: 100%">
+      <el-table class="table" ref="multipleTable" :data="tableData" tooltip-effect="dark" border style="width: 100%"
+                @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="id" label="id" width="55"></el-table-column>
         <el-table-column prop="name" label="项目名称" width="200">
@@ -55,8 +58,8 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="cur_page"
-          :page-sizes="[10, 20, 50, 100]"
-          :page-size=page_size
+          :page-sizes="[3, 10, 20, 50, 100]"
+          :page-size="page_size"
           layout="total, sizes, prev, pager, next, jumper"
           :total=total_nums>
         </el-pagination>
@@ -65,7 +68,7 @@
 
     <!--  编辑dialog  -->
     <el-dialog title="修改项目" :visible.sync="editVisible">
-      <el-form :model="form" :rules="editRules">
+      <el-form ref="editForm" :model="form" :rules="editRules">
         <el-form-item label="项目名称" prop="name">
           <el-input v-model="form.name" clearable></el-input>
         </el-form-item>
@@ -109,7 +112,7 @@
 </template>
 
 <script>
-import {del_project, edit_project, projects_list, env_name, run_by_project} from '@/api/request'
+import {del_project, edit_project, env_name, projects_list, run_by_project} from '@/api/request'
 
 export default {
   name: "ProjectList",
@@ -128,7 +131,8 @@ export default {
       searchKeyword: '',  // 搜索关键字
       envs_data: [],  // 返回的环境名称和id
       env_id: '',  // 环境id
-      project_id : -1,
+      project_id: -1,
+      multipleSelection: [],  //选择的表单数据
 
       // 编辑表单校验规则
       editRules: {
@@ -202,17 +206,22 @@ export default {
     },
     // 删除功能
     handleDel(row) {
-      this.$confirm('此操作将永久删除该项目, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该项目,删除不可恢复,是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         del_project(row.id).then(response => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-          this.getData();
+          if (response.status === 204) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            if (this.tableData.length === 1 && this.cur_page !== 1) {
+              this.cur_page = this.cur_page - 1
+            }
+            this.getData();
+          }
         })
       }).catch(() => {
         this.$message({
@@ -223,22 +232,74 @@ export default {
     },
     // 编辑按钮保存功能
     saveEdit() {
-      edit_project(this.form.id, this.form).then(response => {
-        this.$message.success(`修改【 ${this.form.name} 】成功`);
-        this.getData();
-        this.editVisible = false;
+      this.$refs.editForm.validate(async (valid) => {
+        if (valid) {
+          await edit_project(this.form.id, this.form).then(response => {
+            this.$message.success(`修改【 ${this.form.name} 】成功`);
+            this.getData();
+            this.editVisible = false;
+          })
+          // this.editVisible = false;
+        } else {
+          this.$message.error('请按提示填写');
+          return false;
+        }
       })
-      // this.editVisible = false;
     },
     // 执行项目下测试用例
-    confirmRun(){
-      run_by_project(this.project_id, this.env_id).then(response =>{
+    confirmRun() {
+      run_by_project(this.project_id, this.env_id).then(response => {
         this.$message.success(response.data.msg);
       });
       this.runVisible = false;
     },
+    // 表单选择
+    handleSelectionChange(val) {
+      // console.log(val)
+      this.multipleSelection = val;
+    },
+    // 删除选中的数据
+    deleteAll(val) {
+      // console.log(val);
+      const length = this.multipleSelection.length;
+      if (length === 0) {
+        this.$message.info(`请选择需删除的项目`);
+      } else {
+        this.$confirm('此操作将永久删除选中项目,删除不可恢复,是否确定删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          for (let i = 0; i < length; i++) {
+            del_project(val[i].id).then(response => {
+              console.log(`删除${val[i].name}成功`);
+              if (i === length - 1) {
+                if (this.tableData.length === length && this.cur_page !== 1) {
+                  this.cur_page = this.cur_page - 1
+                }
+                this.$message.success(`全部删除成功`);
+                this.getData();
+              }
+            })
+          }
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      }
+    },
     searchProjects() {
-      // TODO
+      projects_list({
+        'page': this.cur_page,
+        'size': this.page_size,
+        'name': this.searchKeyword
+      }).then(response => {
+        this.tableData = response.data.results;
+        this.cur_page = response.data.current_page_num || 1;
+        this.total_nums = response.data.count || 1;
+      })
     },
   }
 }
@@ -253,18 +314,9 @@ export default {
   padding-bottom: 20px;
 }
 
-.handle-select {
-  width: 120px;
-}
-
 .handle-input {
   width: 300px;
   display: inline-block;
-}
-
-.del-dialog-cnt {
-  font-size: 16px;
-  text-align: center
 }
 
 .table {

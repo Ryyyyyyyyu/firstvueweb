@@ -90,7 +90,7 @@ const routes = [
         name: 'InterfaceAdd',
         component: InterfaceAdd,
         meta: {
-          title: '项目新增',
+          title: '接口新增',
         }
       }
     ]

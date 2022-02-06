@@ -17,4 +17,17 @@ export default {
   width: 100%;
   height: 100%;
 }
+
+.crumbs {
+  padding-bottom: 20px;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
+
+.handle-input {
+  width: 300px;
+  display: inline-block;
+}
 </style>
