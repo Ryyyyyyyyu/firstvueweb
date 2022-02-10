@@ -15,7 +15,7 @@
           <span>{{ item.meta.title }}</span>
         </template>
         <el-menu-item :index="children.path"
-                      v-for="(children, index1) in item.children" :key="index1">
+                      v-for="(children, index1) in item.children" :key="index1"  v-if="!children.hidden">
           <span>{{ children.meta.title }}</span>
         </el-menu-item>
       </el-submenu>

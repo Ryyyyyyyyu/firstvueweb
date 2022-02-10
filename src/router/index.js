@@ -9,10 +9,12 @@ import InterfaceAdd from "@/views/interfaces/Add"
 import EnvAdd from "@/views/env/Add"
 import EnvList from "@/views/env/List"
 import BuiltinList from "@/views/builtin/List"
+import BuiltinEdit from "@/views/builtin/Edit"
 import TestsuiteAdd from "@/views/testsuite/Add"
 import TestsuiteList from "@/views/testsuite/List"
 import TestcaseAdd from "@/views/testcase/Add"
 import TestcaseList from "@/views/testcase/List"
+import TestcaseEdit from "@/views/testcase/Edit"
 import ConfigureAdd from "@/views/configure/Add"
 import ConfigureList from "@/views/configure/List"
 import ReportList from "@/views/report/List"
@@ -135,11 +137,19 @@ const routes = [
     children: [
       {
         path: '/builtin/list',
-        title: '函数列表',
         name: 'BuiltinList',
         component: BuiltinList,
         meta: {
           title: '函数列表',
+        }
+      },
+      {
+        path: '/builtin/edit/:id',
+        name: 'BuiltinEdit',
+        component: BuiltinEdit,
+        hidden: true,
+        meta: {
+          title: '函数编辑',
         }
       }
     ]
@@ -148,7 +158,6 @@ const routes = [
     path: '/testcase',
     name: 'Testcase',
     redirect: '/testcase/list',
-
     component: Home,
     meta: {
       title: '用例管理',
@@ -169,6 +178,15 @@ const routes = [
         component: TestcaseAdd,
         meta: {
           title: '用例新增',
+        }
+      },
+      {
+        path: '/testcase/edit/:id',
+        name: 'TestcaseEdit',
+        component: TestcaseEdit,
+        hidden: true,
+        meta: {
+          title: '用例编辑',
         }
       }
     ]

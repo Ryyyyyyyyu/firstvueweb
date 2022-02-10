@@ -40,7 +40,9 @@ request.interceptors.request.use(function (config){
 request.interceptors.response.use(function (response){
   console.log('响应拦截器开始工作了。。。')
   console.log(response)
-  if (response.status === 401){
+  if (response.status === 400){
+    Message.error({message:response.data});
+  } else if (response.status === 401){
     Message.error({message:'您未登录或token已过期，请重新登录！'});
   } else if (response.status === 403){
     Message.error({message:'您暂无该权限，请申请权限操作！'});
@@ -48,6 +50,8 @@ request.interceptors.response.use(function (response){
     Message.error({message:'请求地址不存在！！'});
   } else if (response.status === 500){
     Message.error({message:'服务器内部错误，请联系管理员处理！！'});
+  } else if (response.status === 504){
+    Message.error({message:'服务器超时，请联系管理员处理！！'});
   }
   return response
 }, function (error) {

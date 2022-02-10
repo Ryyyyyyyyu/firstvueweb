@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column prop="update_time" label="更新时间" sortable show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="address" label="操作" align="center">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-video-play" @click="handleRun(scope.row)">运行</el-button>
             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
@@ -151,7 +151,7 @@ export default {
         'size': this.page_size
       }).then(response => {
         this.interfaceData = response.data.results;
-        this.cur_page = response.data.current_page_num || 1;
+        this.cur_page = response.data['current_page_num'] || 1;
         this.total_nums = response.data.count || 1;
       })
     },
@@ -245,9 +245,9 @@ export default {
       // console.log(val);
       const length = this.multipleSelection.length;
       if (length === 0) {
-        this.$message.info(`请选择需删除的项目`);
+        this.$message.info(`请选择需删除的接口`);
       } else {
-        this.$confirm('此操作将永久删除选中项目,删除不可恢复,是否确定删除?', '提示', {
+        this.$confirm('此操作将永久删除选中接口,删除不可恢复,是否确定删除?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

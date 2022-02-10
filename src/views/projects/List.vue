@@ -45,7 +45,7 @@
         </el-table-column>
         <el-table-column prop="update_time" label="更新时间" sortable show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="address" label="操作" align="center">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-video-play" @click="handleRun(scope.row)">运行</el-button>
             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
@@ -173,7 +173,7 @@ export default {
         'size': this.page_size
       }).then(response => {
         this.tableData = response.data.results;
-        this.cur_page = response.data.current_page_num || 1;
+        this.cur_page = response.data['current_page_num'] || 1;
         this.total_nums = response.data.count || 1;
       })
     },

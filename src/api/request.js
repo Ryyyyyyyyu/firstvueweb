@@ -9,9 +9,9 @@ export const login = params => {
 
 // 获取所有项目信息
 export const projects_list = params => {
-  if(params.name){
+  if (params.name) {
     return request.get(`/projects/?page=${params.page}&page_size=${params.size}&name=${params.name}`)
-  }else {
+  } else {
     return request.get(`/projects/?page=${params.page}&page_size=${params.size}`)
   }
 };
@@ -57,6 +57,18 @@ export const run_by_interface = (interface_id, env_id) => {
   return request.post(`/interfaces/${interface_id}/run/`, {"env_id": env_id})
 };
 
+// 新增环境信息
+export const add_env = params => {
+  return request.post(`/envs/`, params)
+}
+// 更新环境信息
+export const edit_env = (id, params) => {
+  return request.put(`/envs/${id}/`, params)
+};
+// 删除环境信息
+export const del_env = (id) => {
+  return request.delete(`/envs/${id}/`)
+};
 // 获取所有环境变量的ID和名称
 export const env_name = () => {
   return request.get(`/envs/names/`)
@@ -64,4 +76,30 @@ export const env_name = () => {
 // 获取环境列表
 export const envs_list = (params) => {
   return request.get(`/envs/?page=${params.page}&page_size=${params.size}`)
+};
+
+//获取debugtalks列表
+export const debugtalk_list = params => {
+  return request.get(`/debugtalks/?page=${params.page}&page_size=${params.size}`)
+};
+//获取debugtalks函数源码
+export const builtins_code = id => {
+  return request.get(`/debugtalks/${id}/`)
+};
+// 更新debugtalks
+export const edit_debugtalks = (id, params) => {
+  return request.put(`/debugtalks/${id}/`, {'debugtalk': params})
+};
+
+// 获取用例列表
+export const testcases_list = params => {
+  return request.get(`/testcases/?page=${params.page}&page_size=${params.size}`)
+};
+// 运行测试用例
+export const run_by_testcases = (testcases_id, env_id) => {
+  return request.post(`/testcases/${testcases_id}/run/`, {"env_id": env_id})
+};
+// 删除测试用例
+export const del_testcases = (id) => {
+  return request.delete(`/testcases/${id}/`)
 };
