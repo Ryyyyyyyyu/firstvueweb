@@ -234,7 +234,7 @@ const routes = [
         name: 'ConfigureList',
         component: ConfigureList,
         meta: {
-          title: '套件列表',
+          title: '配置列表',
         }
       },
       {
@@ -242,7 +242,7 @@ const routes = [
         name: 'ConfigureAdd',
         component: ConfigureAdd,
         meta: {
-          title: '套件新增',
+          title: '配置新增',
         }
       }
     ]
