@@ -35,6 +35,10 @@ export const run_by_project = (project_id, env_id) => {
 export const project_name = () => {
   return request.get(`/projects/names/`)
 };
+// 获取项目下所有的ID和名称
+export const project_interfaces = (project_id) => {
+  return request.get(`/projects/${project_id}/interfaces/`)
+};
 
 // 获取所有接口信息
 export const interface_list = params => {
@@ -56,6 +60,15 @@ export const del_interface = (id) => {
 export const run_by_interface = (interface_id, env_id) => {
   return request.post(`/interfaces/${interface_id}/run/`, {"env_id": env_id})
 };
+// 获取所有接口的ID和名称
+export const interface_name = (project_id) => {
+  if (project_id) {
+    return request.get(`/interfaces/names/?project_id=${project_id}`)
+  } else{
+    return request.get(`/interfaces/names/`)
+  }
+};
+
 
 // 新增环境信息
 export const add_env = params => {
@@ -102,4 +115,13 @@ export const run_by_testcases = (testcases_id, env_id) => {
 // 删除测试用例
 export const del_testcases = (id) => {
   return request.delete(`/testcases/${id}/`)
+};
+
+// 获取配置列表
+export const configures_list = params => {
+  return request.get(`/configures/?page=${params.page}&page_size=${params.size}`)
+};
+// 删除配置信息
+export const del_configures = (id) => {
+  return request.delete(`/configures/${id}/`)
 };

@@ -297,7 +297,7 @@ export default {
         'name': this.searchKeyword
       }).then(response => {
         this.tableData = response.data.results;
-        this.cur_page = response.data.current_page_num || 1;
+        this.cur_page = response.data['current_page_num'] || 1;
         this.total_nums = response.data.count || 1;
       })
     },
@@ -322,10 +322,6 @@ export default {
 .table {
   width: 100%;
   font-size: 14px;
-}
-
-.red {
-  color: #ff0000;
 }
 
 .mr10 {

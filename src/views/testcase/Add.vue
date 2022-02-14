@@ -15,13 +15,15 @@
           <div class="form-box">
             <el-form ref="form" :model="form" label-width="80px">
               <el-form-item label="选择项目">
-                <el-select v-model="form.project" placeholder="请选择项目">
-                  <el-option label="区域一" value="project_id"></el-option>
+                <el-select v-model="form.project_id" @change="getInterfaceName()" placeholder="请选择项目">
+                  <el-option v-for="item in projects_name" :key="item.id" :label="item.name"
+                             :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="选择接口">
-                <el-select v-model="form.region" placeholder="请选择接口">
-                  <el-option label="区域一" value="shanghai"></el-option>
+                <el-select v-model="form.interface_id" placeholder="请选择接口">
+                  <el-option v-for="item in interfaces_name" :key="item.id" :label="item.name"
+                             :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="选择配置">
@@ -29,15 +31,6 @@
                   <el-option label="区域一" value="shanghai"></el-option>
                 </el-select>
               </el-form-item>
-              <el-transfer v-model="value" :data="data">
-                <el-tree
-                  :props="props"
-                  :load="loadNode"
-                  lazy
-                  show-checkbox
-                  @check-change="handleCheckChange">
-                </el-tree>
-              </el-transfer>
             </el-form>
           </div>
         </el-tab-pane>
@@ -51,61 +44,40 @@
 </template>
 
 <script>
+import {project_name, project_interfaces} from '@/api/request'
+
 export default {
   name: "TestcaseAdd",
   data() {
     return {
       activeName: 'first',
-      form: {},
-      value: [],
-      data: [],
-      props: {
-        label: 'name',
-        children: 'zones'
+      form: {
+        project_id: '',
+        interface_id:''
       },
-      count: 1
+      projects_name: [],
+      interfaces_name: []
     };
+  },
+  mounted() {
+    this.getProjectName();
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    handleCheckChange(data, checked, indeterminate) {
-      console.log(data, checked, indeterminate);
+    getProjectName() {
+      project_name().then(response => {
+        this.projects_name = response.data;
+      })
     },
-    handleNodeClick(data) {
-      console.log(data);
+    // 改变项目时获取该项目下所有接口名
+    getInterfaceName() {
+      this.form.interface_id = '';
+      project_interfaces(this.form.project_id).then(response => {
+        this.interfaces_name = response.data;
+      })
     },
-    loadNode(node, resolve) {
-      if (node.level === 0) {
-        return resolve([{name: 'region1'}, {name: 'region2'}]);
-      }
-      if (node.level > 3) return resolve([]);
-
-      let hasChild;
-      if (node.data.name === 'region1') {
-        hasChild = true;
-      } else if (node.data.name === 'region2') {
-        hasChild = false;
-      } else {
-        hasChild = Math.random() > 0.5;
-      }
-
-      setTimeout(() => {
-        let data;
-        if (hasChild) {
-          data = [{
-            name: 'zone' + this.count++
-          }, {
-            name: 'zone' + this.count++
-          }];
-        } else {
-          data = [];
-        }
-
-        resolve(data);
-      }, 500);
-    }
   }
 }
 </script>

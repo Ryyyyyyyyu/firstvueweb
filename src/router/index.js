@@ -48,7 +48,8 @@ const routes = [
     component: Home,
     meta: {
       title: '项目管理',
-      icon: 'el-icon-s-claim'
+      icon: 'el-icon-s-claim',
+      requiresAuth: true
     },
     children: [
       {
@@ -76,7 +77,8 @@ const routes = [
     component: Home,
     meta: {
       title: '接口管理',
-      icon: 'el-icon-s-flag'
+      icon: 'el-icon-s-flag',
+      requiresAuth: true
     },
     children: [
       {
@@ -104,7 +106,8 @@ const routes = [
     component: Home,
     meta: {
       title: '环境管理',
-      icon: 'el-icon-s-open'
+      icon: 'el-icon-s-open',
+      requiresAuth: true
     },
     children: [
       {
@@ -132,7 +135,8 @@ const routes = [
     component: Home,
     meta: {
       title: '内置函数',
-      icon: 'el-icon-s-tools'
+      icon: 'el-icon-s-tools',
+      requiresAuth: true
     },
     children: [
       {
@@ -161,7 +165,8 @@ const routes = [
     component: Home,
     meta: {
       title: '用例管理',
-      icon: 'el-icon-s-opportunity'
+      icon: 'el-icon-s-opportunity',
+      requiresAuth: true
     },
     children: [
       {
@@ -198,7 +203,8 @@ const routes = [
     component: Home,
     meta: {
       title: '套件管理',
-      icon: 'el-icon-files'
+      icon: 'el-icon-files',
+      requiresAuth: true
     },
     children: [
       {
@@ -226,7 +232,8 @@ const routes = [
     component: Home,
     meta: {
       title: '配置管理',
-      icon: 'el-icon-s-ticket'
+      icon: 'el-icon-s-ticket',
+      requiresAuth: true
     },
     children: [
       {
@@ -254,7 +261,8 @@ const routes = [
     component: Home,
     meta: {
       title: '报告管理',
-      icon: 'el-icon-s-marketing'
+      icon: 'el-icon-s-marketing',
+      requiresAuth: true
     },
     children: [
       {

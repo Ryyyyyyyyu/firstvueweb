@@ -30,4 +30,8 @@ export default {
   width: 300px;
   display: inline-block;
 }
+
+.red {
+  color: #ff0000;
+}
 </style>
